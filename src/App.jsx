@@ -260,6 +260,39 @@ function App() {
                 ))}
               </div>
             </div>
+
+            {/* Attributes Filter */}
+            <div>
+              {searchResult?.search_attributes?.attributes.map((attr, index) => (
+                <div key={index}>
+                  <div className='flex items-center justify-between cursor-pointer' onClick={toggleAttrAccordion}>
+                    <h3 className="text-md font-bold mb-2">
+                      {attr.name}
+                    </h3>
+                    <RxCaretUp className={`${accordionOpenColors ? 'block' : 'hidden'}`}/>
+                    <RxCaretDown className={`${accordionOpenColors ? 'hidden' : 'block'}`}/>
+                  </div>
+                  <div 
+                    className={`${accordionOpenColors ? 'block' : 'hidden'}`}
+                  >
+                    {searchResult?.search_attributes?.colors.map((color, index) => (
+                      <div key={index} className="flex items-center mb-2">
+                        <input
+                          type="checkbox"
+                          id={`color-${index}`}
+                          checked={color_codes.includes(color.code)}
+                          onChange={() => handleColorChange(color.code)}
+                          className="form-checkbox h-4 w-4 text-indigo-600 transition duration-150 ease-in-out"
+                        />
+                        <label htmlFor={`color-${index}`} className="ml-2">
+                          {color.name}
+                        </label>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
           
 
