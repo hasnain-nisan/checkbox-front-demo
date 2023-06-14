@@ -20,6 +20,7 @@ function App() {
   const [color_codes, set_color_codes] = useState([]);
   const [accordionOpenColors, setAccordionOpenColors] = useState(false);
 
+  const [selected_attribute_values, set_selected_attribute_values] = useState({})
 
   const handleCategoryChange = (id) => {
     if (category_ids.includes(id)) {
@@ -45,6 +46,35 @@ function App() {
     }
   };
 
+  const handleAttrChange = (id, value) => {
+    set_selected_attribute_values((prevState) => {
+      const updatedState = { ...prevState };
+
+      if (!updatedState.hasOwnProperty(id)) {
+        updatedState[id] = [value]; // Create a new property with the id and assign an array with the value
+      } else {
+        const valueArray = updatedState[id];
+
+        if (valueArray.includes(value)) {
+          // Value exists, remove it
+          updatedState[id] = valueArray.filter((item) => item !== value);
+        } else {
+          // Value does not exist, add it
+          updatedState[id] = [...valueArray, value];
+        }
+      }
+
+      return updatedState;
+    })
+  }
+
+  const isCheckboxChecked = (id, value) => {
+    return (
+      selected_attribute_values.hasOwnProperty(id) &&
+      selected_attribute_values[id].includes(value)
+    );
+  };
+
   const toggleResults = () => {
     setShowResults(!showResults);
   };
@@ -60,6 +90,8 @@ function App() {
   const toggleColorAccordion = () => {
     setAccordionOpenColors(!accordionOpenColors);
   };
+
+  
 
 
 
@@ -89,7 +121,8 @@ function App() {
           "category_slug": category_slug,
           "category_ids": category_ids,
           "brand_ids": brand_ids,
-          "color_codes": color_codes
+          "color_codes": color_codes,
+          "selected_attribute_values": selected_attribute_values
         }
       });
 
@@ -103,7 +136,8 @@ function App() {
 
   useEffect(() => {
     getSearchProducts()
-  }, [category_slug, category_ids, brand_ids, color_codes])
+    console.log(selected_attribute_values)
+  }, [category_slug, category_ids, brand_ids, color_codes, selected_attribute_values])
 
   return (
     <>
@@ -265,27 +299,30 @@ function App() {
             <div>
               {searchResult?.search_attributes?.attributes.map((attr, index) => (
                 <div key={index}>
-                  <div className='flex items-center justify-between cursor-pointer' onClick={toggleAttrAccordion}>
+                  <div className='flex items-center justify-between cursor-pointer' 
+                    // onClick={toggleAttrAccordion}
+                  >
                     <h3 className="text-md font-bold mb-2">
                       {attr.name}
                     </h3>
-                    <RxCaretUp className={`${accordionOpenColors ? 'block' : 'hidden'}`}/>
-                    <RxCaretDown className={`${accordionOpenColors ? 'hidden' : 'block'}`}/>
+                    {/* <RxCaretUp className={`${accordionOpenColors ? 'block' : 'hidden'}`}/> */}
+                    {/* <RxCaretDown className={`${accordionOpenColors ? 'hidden' : 'block'}`}/> */}
                   </div>
                   <div 
-                    className={`${accordionOpenColors ? 'block' : 'hidden'}`}
+                    // className={`${accordionOpenColors ? 'block' : 'hidden'}`}
+                    className='block'
                   >
-                    {searchResult?.search_attributes?.colors.map((color, index) => (
+                    {attr.attribute_values.map((item, index) => (
                       <div key={index} className="flex items-center mb-2">
                         <input
                           type="checkbox"
                           id={`color-${index}`}
-                          checked={color_codes.includes(color.code)}
-                          onChange={() => handleColorChange(color.code)}
+                          checked={isCheckboxChecked(attr.id, item.value)}
+                          onChange={() => handleAttrChange(attr.id, item.value)}
                           className="form-checkbox h-4 w-4 text-indigo-600 transition duration-150 ease-in-out"
                         />
                         <label htmlFor={`color-${index}`} className="ml-2">
-                          {color.name}
+                          {item.value}
                         </label>
                       </div>
                     ))}
