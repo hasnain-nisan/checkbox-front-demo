@@ -21,6 +21,7 @@ function App() {
   const [accordionOpenColors, setAccordionOpenColors] = useState(false);
 
   const [selected_attribute_values, set_selected_attribute_values] = useState({})
+  const [accordionOpenAttrs, setAccordionOpenAttrs] = useState({});
 
   const handleCategoryChange = (id) => {
     if (category_ids.includes(id)) {
@@ -91,6 +92,13 @@ function App() {
     setAccordionOpenColors(!accordionOpenColors);
   };
 
+  const toggleAttrsAccordion = (id) => {
+    setAccordionOpenAttrs((prevState) => ({
+      ...prevState,
+      [id]: !prevState[id], // Toggle the value of the specific property
+    }));
+  };
+
   
 
 
@@ -118,17 +126,29 @@ function App() {
           "checkbox-api-v2-key": "83324867-6668-4c04-bf36-91714ea8b3e3"
         },
         params: {
-          "category_slug": category_slug,
-          "category_ids": category_ids,
-          "brand_ids": brand_ids,
-          "color_codes": color_codes,
-          "selected_attribute_values": selected_attribute_values
+          "category_slug" : category_slug,
+          "category_ids" : category_ids,
+          "brand_ids" : brand_ids,
+          "color_codes" : color_codes,
+          "selected_attribute_values" : selected_attribute_values
         }
       });
 
       setShowResults(false)
       setSearchResult(response.data.data)
-      console.log(response.data.data)
+      
+      // Initialize accordionOpenAttrs with properties based on the response
+      const initialOpenAttrs = response.data.data.search_attributes.attributes.reduce(
+        (acc, attribut) => {
+          acc[attribut.id] = accordionOpenAttrs.hasOwnProperty(attribut.id)
+            ? accordionOpenAttrs[attribut.id]
+            : false;
+          return acc;
+        },
+        {}
+      );
+
+      setAccordionOpenAttrs(initialOpenAttrs);
     } catch (error) {
       console.log('Error fetching data:', error);
     }
@@ -208,6 +228,7 @@ function App() {
           <div className="w-1/4 bg-gray-200 p-4">
             <h2 className="text-lg font-bold mb-4">Filters</h2>
             {/* Add your filter attributes here */}
+            
             {/* Category Filter */}
             <div>
               <div className='flex items-center justify-between cursor-pointer' onClick={toggleCategoryAccordion}>
@@ -300,17 +321,16 @@ function App() {
               {searchResult?.search_attributes?.attributes.map((attr, index) => (
                 <div key={index}>
                   <div className='flex items-center justify-between cursor-pointer' 
-                    // onClick={toggleAttrAccordion}
+                    onClick={() => toggleAttrsAccordion(attr.id)}
                   >
                     <h3 className="text-md font-bold mb-2">
                       {attr.name}
                     </h3>
-                    {/* <RxCaretUp className={`${accordionOpenColors ? 'block' : 'hidden'}`}/> */}
-                    {/* <RxCaretDown className={`${accordionOpenColors ? 'hidden' : 'block'}`}/> */}
+                    <RxCaretUp className={`${accordionOpenAttrs[attr.id] === true ? 'block' : 'hidden'}`}/>
+                    <RxCaretDown className={`${accordionOpenAttrs[attr.id] === true ? 'hidden' : 'block'}`}/>
                   </div>
                   <div 
-                    // className={`${accordionOpenColors ? 'block' : 'hidden'}`}
-                    className='block'
+                    className={`${accordionOpenAttrs[attr.id] === true ? 'block' : 'hidden'}`}
                   >
                     {attr.attribute_values.map((item, index) => (
                       <div key={index} className="flex items-center mb-2">
