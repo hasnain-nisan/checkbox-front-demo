@@ -105,7 +105,7 @@ function App() {
 
   const getSearchSuggestions = async (e) => {
     try {
-      const response = await axios.get('http://phpstack-924353-3259330.cloudwaysapps.com/api/v2/get-search-suggestions', {
+      const response = await axios.get('https://phpstack-924353-3259330.cloudwaysapps.com/api/v2/get-search-suggestions', {
         headers: {
           "checkbox-api-v2-key": "83324867-6668-4c04-bf36-91714ea8b3e3"
         },
@@ -121,7 +121,7 @@ function App() {
 
   const getSearchProducts = async () => {
     try {
-      const response = await axios.get('http://phpstack-924353-3259330.cloudwaysapps.com/api/v2/search', {
+      const response = await axios.get('https://phpstack-924353-3259330.cloudwaysapps.com/api/v2/search', {
         headers: {
           "checkbox-api-v2-key": "83324867-6668-4c04-bf36-91714ea8b3e3"
         },
