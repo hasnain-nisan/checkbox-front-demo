@@ -1,23 +1,38 @@
 import axios from 'axios';
-import React, { useState } from 'react'
+import { useState } from 'react'
+import { setCategorySlug } from '../redux/reducres/FilterSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom'
 
 const Search = () => {
 
     const [showResults, setShowResults] = useState(false);
     const [searchSuggestions, setSearchSuggestions] = useState(null);
 
-    const toggleResults = () => {
-        setShowResults(!showResults);
-    };
+    const dispatch = useDispatch()
+    const navigate = useNavigate();
+
+    // const toggleResults = (val) => {
+    //     setShowResults(val);
+    // };
+
+    const setSlug = (slug) => {
+        dispatch(setCategorySlug(slug))
+        navigate('/filter');
+    }
 
     const getSearchSuggestions = async (e) => {
         try {
-            const response = await axios.get('get-search-suggestions', {
-                params: {
-                    "search": e.target.value  
-                }
-            });
-            setSearchSuggestions(response.data.data)
+            if(e.target.value){
+                const response = await axios.get('get-search-suggestions', {
+                    params: {
+                        "search": e.target.value  
+                    }
+                });
+                setSearchSuggestions(response.data.data)
+            } else {
+                setSearchSuggestions(null)
+            }
         } catch (error) {
             console.log('Error fetching data:', error);
         }
@@ -29,12 +44,16 @@ const Search = () => {
                 type="text"
                 placeholder="Search"
                 id="searchBox"
-                onClick={toggleResults}
+                autoComplete="off"
+                onFocus={() => setShowResults(true)}
+                onBlur={() => setTimeout(() => {
+                    setShowResults(false)
+                }, 800)}
                 onChange={(e) => getSearchSuggestions(e)}
                 className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
             {showResults && (
-                <div className="absolute z-10 w-full mt-2 bg-white rounded-lg shadow-lg p-3">
+                <div className="absolute z-10 w-full mt-2 bg-white rounded-lg shadow-lg p-3 max-h-[300px] overflow-y-scroll">
                 {/* <!-- Search results here --> */}
                 <div>
                     <label htmlFor="">Keyword</label>
@@ -56,10 +75,10 @@ const Search = () => {
                     {
                         searchSuggestions?.categories.length > 0 ? (
                         searchSuggestions?.categories.map((category, index) => (
-                            <li key={index} data-slug={category.slug} className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
-                            // onClick={(e) => set_category_slug(e.target.dataset.slug)}
+                            <li key={index} className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                                onClick={() => setSlug(category.slug)}
                             >
-                                {category.name}
+                                {category.name} fdf
                             </li>
                         ))
                         ) : (

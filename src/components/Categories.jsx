@@ -4,11 +4,13 @@ import { Dropdown, Space } from 'antd';
 import {FaCaretDown} from 'react-icons/fa'
 import { setCategorySlug } from '../redux/reducres/FilterSlice';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom'
 
 const Categories = () => {
     const [items, setItems] = useState([]);
     const category_slug = useSelector(state => state.filter.category_slug)
     const dispatch = useDispatch()
+    const navigate = useNavigate();
 
     const convertItems = (array) => {
         let options = array.map((category, index) => {
@@ -17,8 +19,8 @@ const Categories = () => {
                 "label": category.name,
                 "children": getChildren(category.childrenCategories, index + 1),
                 "onTitleClick": function(){
-                    console.log(category.slug);
                     dispatch(setCategorySlug(category.slug))
+                    navigate('/filter');
                 },
             }
         })
@@ -31,8 +33,8 @@ const Categories = () => {
                 "key": index + "-" + index1 + 1,
                 "label": arr.name,
                 "onClick": function(){
-                    console.log(arr.slug);
                     dispatch(setCategorySlug(arr.slug))
+                    navigate('/filter');
                 },
             }
         })
@@ -61,7 +63,7 @@ const Categories = () => {
             }}
         >
             <a onClick={(e) => e.preventDefault()}>
-                <Space className='border-2 border-gray-500 p-2 rounded-md'>
+                <Space className='border-2 border-gray-500 p-2 rounded-md cursor-pointer'>
                     Categories
                     <FaCaretDown/>
                 </Space>

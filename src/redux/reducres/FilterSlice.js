@@ -1,5 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit'
 
+
+
+
 export const filterSlice = createSlice({
   name: 'filter',
   initialState: {
@@ -12,6 +15,7 @@ export const filterSlice = createSlice({
       // which detects changes to a "draft state" and produces a brand new
       // immutable state based off those changes
       state.category_slug = action.payload
+      
     },
   }
 })
