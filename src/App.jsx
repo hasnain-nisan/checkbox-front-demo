@@ -239,7 +239,7 @@ function App() {
                 <RxCaretDown className={`${accordionOpenCategory ? 'hidden' : 'block'}`}/>
               </div>
               <div 
-                className={`${accordionOpenCategory ? 'block' : 'hidden'}`}
+                className={`searchAttr ${accordionOpenCategory ? 'block' : 'hidden'}`}
               >
                 {searchResult?.search_attributes?.categories.map((category, index) => (
                   <div key={index} className="flex items-center mb-2">
@@ -268,7 +268,7 @@ function App() {
                 <RxCaretDown className={`${accordionOpenBrand ? 'hidden' : 'block'}`}/>
               </div>
               <div 
-                className={`${accordionOpenBrand ? 'block' : 'hidden'}`}
+                className={`searchAttr ${accordionOpenBrand ? 'block' : 'hidden'}`}
               >
                 {searchResult?.search_attributes?.brands.map((brand, index) => (
                   <div key={index} className="flex items-center mb-2">
@@ -297,7 +297,7 @@ function App() {
                 <RxCaretDown className={`${accordionOpenColors ? 'hidden' : 'block'}`}/>
               </div>
               <div 
-                className={`${accordionOpenColors ? 'block' : 'hidden'}`}
+                className={`searchAttr ${accordionOpenColors ? 'block' : 'hidden'}`}
               >
                 {searchResult?.search_attributes?.colors.map((color, index) => (
                   <div key={index} className="flex items-center mb-2">
@@ -330,7 +330,7 @@ function App() {
                     <RxCaretDown className={`${accordionOpenAttrs[attr.id] === true ? 'hidden' : 'block'}`}/>
                   </div>
                   <div 
-                    className={`${accordionOpenAttrs[attr.id] === true ? 'block' : 'hidden'}`}
+                    className={`searchAttr ${accordionOpenAttrs[attr.id] === true ? 'block' : 'hidden'}`}
                   >
                     {attr.attribute_values.map((item, index) => (
                       <div key={index} className="flex items-center mb-2">
