@@ -4,6 +4,6 @@
 
 @layer utilities {
   .searchAttr {
-    @apply max-h-[250px] overflow-y-auto m-2 p-2 border-2 border-black;
+    @apply max-h-[250px] overflow-y-auto m-2 p-2 border-2 border-gray-400 rounded-md;
   }
 }
