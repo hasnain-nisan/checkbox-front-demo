@@ -9,6 +9,9 @@ export const filterSlice = createSlice({
     category_slug: null,
     priceRange: null,
     sortBy: null,
+    brand_ids: [],
+    color_codes: [],
+    selected_attribute_values: {},
     searchAttributes: null,
     searchResult: null
   },
@@ -22,9 +25,17 @@ export const filterSlice = createSlice({
     setSortBy: (state, action) => {
       state.sortBy = action.payload
     },
+    setBrandIds: (state, action) => {
+      state.brand_ids = action.payload
+    },
+    setColorCodes: (state, action) => {
+      state.color_codes = action.payload
+    },
+    set_selected_attribute_values: (state, action) => {
+      state.selected_attribute_values = action.payload
+    },
     setSearchAttributes: (state, action) => {
       state.searchAttributes = action.payload
-      console.log(state.searchAttributes);
     },
     setSearchResult: (state, action) => {
       state.searchResult = action.payload
@@ -37,6 +48,9 @@ export const {
   setCategorySlug, 
   setPriceRange,
   setSortBy, 
+  setBrandIds,
+  setColorCodes,
+  set_selected_attribute_values,
   setSearchAttributes, 
   setSearchResult 
 } = filterSlice.actions
