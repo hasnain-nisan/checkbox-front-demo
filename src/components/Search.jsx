@@ -48,7 +48,7 @@ const Search = () => {
                 onFocus={() => setShowResults(true)}
                 onBlur={() => setTimeout(() => {
                     setShowResults(false)
-                }, 800)}
+                }, 600)}
                 onChange={(e) => getSearchSuggestions(e)}
                 className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
@@ -78,7 +78,7 @@ const Search = () => {
                             <li key={index} className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
                                 onClick={() => setSlug(category.slug)}
                             >
-                                {category.name} fdf
+                                {category.name}
                             </li>
                         ))
                         ) : (

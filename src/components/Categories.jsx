@@ -3,12 +3,12 @@ import { useEffect, useState } from 'react'
 import { Dropdown, Space } from 'antd';
 import {FaCaretDown} from 'react-icons/fa'
 import { setCategorySlug } from '../redux/reducres/FilterSlice';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom'
 
 const Categories = () => {
     const [items, setItems] = useState([]);
-    const category_slug = useSelector(state => state.filter.category_slug)
+    // const category_slug = useSelector(state => state.filter.category_slug)
     const dispatch = useDispatch()
     const navigate = useNavigate();
 
@@ -52,8 +52,7 @@ const Categories = () => {
 
     useEffect(() => {
         getCategories()
-        console.log(category_slug);
-    }, [category_slug])
+    }, [])
 
 
     return (

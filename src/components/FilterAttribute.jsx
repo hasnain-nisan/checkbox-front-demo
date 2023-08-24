@@ -1,25 +1,22 @@
+import { Button } from 'antd';
 import React, { useState } from 'react'
 import { RxCaretDown, RxCaretUp } from 'react-icons/rx'
+import {MdOutlineCancel} from 'react-icons/md'
+import CategoryAttr from './CategoryAttr';
+import PriceRange from './PriceRange';
 
 const FilterAttribute = () => {
 
-    const [accordionOpenCategory, setAccordionOpenCategory] = useState(false);
-    const toggleCategoryAccordion = () => {
-        setAccordionOpenCategory(!accordionOpenCategory);
-    };
-
   return (
     <div>
-        <h2 className="text-lg font-bold mb-4">Filters</h2>
+        <Button className='flex items-center justify-center gap-3 w-full p-5'>
+          <MdOutlineCancel/>
+          Reset all filter
+        </Button>
 
-        <div>
-              <div className='flex items-center justify-between cursor-pointer' onClick={toggleCategoryAccordion}>
-                <h3 className="text-md font-bold mb-2">
-                  Categories
-                </h3>
-                <RxCaretUp className={`${accordionOpenCategory ? 'block' : 'hidden'}`}/>
-                <RxCaretDown className={`${accordionOpenCategory ? 'hidden' : 'block'}`}/>
-              </div>
+        <div className='mt-10'>
+              <CategoryAttr/>
+              <PriceRange/>
         </div>
     </div>
   )
