@@ -30,6 +30,14 @@ const Product = () => {
             }
           });
 
+          console.log(generateFilterURL({
+            "category_slug" : category_slug,
+            // "category_ids" : category_ids,
+            "collection_slug": collection_slug,
+            "brand_ids" : brand_ids,
+            "color_codes" : color_codes,
+            "selected_attribute_values" : selected_attribute_values
+          }), 'filterurl');
           navigate('/filter?' + response.request['responseURL'].split('search?')[1])
           dispatch(setProducts(response.data.data))
           console.log(response.data.data);
@@ -54,6 +62,52 @@ const Product = () => {
         console.log('Error fetching data:', error);
       }
     }
+
+    function generateFilterURL(data) {
+        // const baseUrl = 'http://127.0.0.1:5173/filter';
+        const queryParams = [];
+
+        for (const [key, value] of Object.entries(data)) {
+            if (value !== null) {
+                if (Array.isArray(value)) {
+                    value.forEach((item, index) => {
+                        if (item !== null) {
+                            queryParams.push(`${key}[${index}]=${encodeURIComponent(item)}`);
+                        }
+                    });
+                } else if (typeof value === 'object') {
+                    for (const [nestedKey, nestedValue] of Object.entries(value)) {
+                        if (nestedValue !== null) {
+                            queryParams.push(`${key}[${nestedKey}][0]=${encodeURIComponent(nestedValue[0])}`);
+                        }
+                    }
+                } else {
+                    queryParams.push(`${key}=${encodeURIComponent(value)}`);
+                }
+            }
+        }
+
+        if (queryParams.length > 0) {
+            return queryParams.join('&');
+        } else {
+            return null;
+        }
+    }
+
+  const data = {
+      "category_slug": null,
+      "collection_slug": "demo-collection",
+      "brand_ids": [1, null, 3],
+      "color_codes": ["#FF0000", null, "#0000FF"],
+      "selected_attribute_values": {
+          1: ["M", "L"],
+          3: null
+      }
+  };
+
+  const filterURL = generateFilterURL(data);
+  console.log(filterURL);
+
 
     useEffect(() => {
       getSearchProducts();
