@@ -19,9 +19,23 @@ export const filterSlice = createSlice({
   },
   reducers: {
     setCategorySlug: (state, action) => {
+      state.collection_slug = null
+      state.priceRange = null
+      state.sortBy = null
+      state.brand_ids = []
+      state.color_codes = []
+      state.selected_attribute_values = {}
+
       state.category_slug = action.payload
     },
     setCollectionSlug: (state, action) => {
+      state.category_slug = null
+      state.priceRange = null
+      state.sortBy = null
+      state.brand_ids = []
+      state.color_codes = []
+      state.selected_attribute_values = {}
+
       state.collection_slug = action.payload
     },
     setPriceRange: (state, action) => {

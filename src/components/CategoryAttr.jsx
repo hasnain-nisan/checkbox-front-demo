@@ -19,7 +19,7 @@ const CategoryAttr = () => {
         dispatch(setCategorySlug(slug))
     }
 
-    console.log(categories);
+    // console.log(categories);
 
     return (
         <div>

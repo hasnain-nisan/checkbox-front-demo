@@ -19,28 +19,24 @@ const Product = () => {
     const getSearchProducts = async () => {
       try {
 
-          const response = await axios.get('search', {
-            params: {
+          let paramms = {
               "category_slug" : category_slug,
               // "category_ids" : category_ids,
               "collection_slug": collection_slug,
               "brand_ids" : brand_ids,
               "color_codes" : color_codes,
               "selected_attribute_values" : selected_attribute_values
-            }
+          }
+
+          const response = await axios.get('search', {
+            params: paramms
           });
 
-          console.log(generateFilterURL({
-            "category_slug" : category_slug,
-            // "category_ids" : category_ids,
-            "collection_slug": collection_slug,
-            "brand_ids" : brand_ids,
-            "color_codes" : color_codes,
-            "selected_attribute_values" : selected_attribute_values
-          }), 'filterurl');
+          let uri = generateFilterURL(paramms)
+
+          console.log(uri);
           navigate('/filter?' + response.request['responseURL'].split('search?')[1])
           dispatch(setProducts(response.data.data))
-          console.log(response.data.data);
 
 
           // setShowResults(false)
@@ -64,6 +60,8 @@ const Product = () => {
     }
 
     function generateFilterURL(data) {
+
+      console.log(data);
         // const baseUrl = 'http://127.0.0.1:5173/filter';
         const queryParams = [];
 
@@ -76,10 +74,17 @@ const Product = () => {
                         }
                     });
                 } else if (typeof value === 'object') {
+                    const queryParamsNested = [];
+                    console.log(value);
                     for (const [nestedKey, nestedValue] of Object.entries(value)) {
-                        if (nestedValue !== null) {
-                            queryParams.push(`${key}[${nestedKey}][0]=${encodeURIComponent(nestedValue[0])}`);
+                        if(nestedValue.length > 0){
+                          nestedValue.forEach((value, index) => {
+                            queryParamsNested.push(`${key}[${nestedKey}][${index}]=${encodeURIComponent(value)}`);
+                          })
                         }
+                    }
+                    if (queryParamsNested.length > 0) {
+                        queryParams.push(queryParamsNested.join('&'));
                     }
                 } else {
                     queryParams.push(`${key}=${encodeURIComponent(value)}`);
@@ -94,19 +99,19 @@ const Product = () => {
         }
     }
 
-  const data = {
-      "category_slug": null,
-      "collection_slug": "demo-collection",
-      "brand_ids": [1, null, 3],
-      "color_codes": ["#FF0000", null, "#0000FF"],
-      "selected_attribute_values": {
-          1: ["M", "L"],
-          3: null
-      }
-  };
+  // const data = {
+  //     "category_slug": null,
+  //     "collection_slug": "demo-collection",
+  //     "brand_ids": [1, null, 3],
+  //     "color_codes": ["#FF0000", null, "#0000FF"],
+  //     "selected_attribute_values": {
+  //         1: ["M", "L"],
+  //         3: null
+  //     }
+  // };
 
-  const filterURL = generateFilterURL(data);
-  console.log(filterURL);
+  // const filterURL = generateFilterURL(data);
+  // console.log(filterURL);
 
 
     useEffect(() => {
