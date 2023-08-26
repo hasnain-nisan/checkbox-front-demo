@@ -16,13 +16,15 @@ const FilterAttribute = () => {
     const dispatch = useDispatch();
     const category_slug = useSelector(state => state.filter.category_slug)
     const collection_slug = useSelector(state => state.filter.collection_slug)
+    const keyword = useSelector(state => state.filter.keyword)
 
   const getSearchAttributes = async () => {
     try {
       const response = await axios.get('search-attributes', {
         params: {
           "category_slug" : category_slug,
-          "collection_slug" : collection_slug
+          "collection_slug" : collection_slug,
+          'keyword': keyword
           // "category_ids" : category_ids,
           // "brand_ids" : brand_ids,
           // "color_codes" : color_codes,
@@ -55,7 +57,7 @@ const FilterAttribute = () => {
 
   useEffect(() => {
     getSearchAttributes();
-  }, [category_slug, collection_slug])
+  }, [category_slug, collection_slug, keyword])
 
   return (
     <div>

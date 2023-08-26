@@ -8,6 +8,7 @@ export const filterSlice = createSlice({
   initialState: {
     category_slug: null,
     collection_slug: null,
+    keyword: null,
     priceRange: null,
     sortBy: null,
     brand_ids: [],
@@ -20,6 +21,7 @@ export const filterSlice = createSlice({
   reducers: {
     setCategorySlug: (state, action) => {
       state.collection_slug = null
+      state.keyword = null
       state.priceRange = null
       state.sortBy = null
       state.brand_ids = []
@@ -30,6 +32,7 @@ export const filterSlice = createSlice({
     },
     setCollectionSlug: (state, action) => {
       state.category_slug = null
+      state.keyword = null
       state.priceRange = null
       state.sortBy = null
       state.brand_ids = []
@@ -37,6 +40,17 @@ export const filterSlice = createSlice({
       state.selected_attribute_values = {}
 
       state.collection_slug = action.payload
+    },
+    setKeyword: (state, action) => {
+      state.category_slug = null
+      state.collection_slug = null
+      state.priceRange = null
+      state.sortBy = null
+      state.brand_ids = []
+      state.color_codes = []
+      state.selected_attribute_values = {}
+
+      state.keyword = action.payload
     },
     setPriceRange: (state, action) => {
       state.priceRange = action.payload
@@ -69,6 +83,7 @@ export const filterSlice = createSlice({
 export const { 
   setCategorySlug, 
   setCollectionSlug,
+  setKeyword,
   setPriceRange,
   setSortBy, 
   setBrandIds,

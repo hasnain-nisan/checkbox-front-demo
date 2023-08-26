@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { useState } from 'react'
-import { setCategorySlug, setCollectionSlug } from '../redux/reducres/FilterSlice';
+import { setCategorySlug, setCollectionSlug, setKeyword } from '../redux/reducres/FilterSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom'
 
@@ -18,11 +18,11 @@ const Search = () => {
 
     const setSlug = (slug, type) => {
         if(type === 'category'){
-            dispatch(setCollectionSlug(null))
             dispatch(setCategorySlug(slug))
-        } else {
-            dispatch(setCategorySlug(null))
+        } else if (type === 'collection') {
             dispatch(setCollectionSlug(slug))
+        } else {
+            dispatch(setKeyword(slug))
         }
         navigate('/filter');
     }
@@ -67,7 +67,11 @@ const Search = () => {
                     {
                         searchSuggestions?.keywords.length > 0 ? (
                         searchSuggestions?.keywords.map((keyword, index) => (
-                            <li key={index} className="px-4 py-2 hover:bg-gray-100 cursor-pointer">{keyword}</li>
+                            <li key={index} className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                                onClick={() => setSlug(keyword, 'keyword')}
+                            >
+                                {keyword}
+                            </li>
                         ))
                         ) : (
                         <p className='px-5'>No keyword found</p>
