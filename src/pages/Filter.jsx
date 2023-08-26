@@ -11,7 +11,7 @@ const Filter = () => {
         <Categories/>
         <Search/>
       </div>
-      <div className='w-full flex gap-5 mt-5'>
+      <div className='w-full flex gap-10 mt-5'>
         <div className="w-1/4">
           <FilterAttribute/>
         </div>

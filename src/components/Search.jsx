@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { useState } from 'react'
-import { setCategorySlug } from '../redux/reducres/FilterSlice';
+import { setCategorySlug, setCollectionSlug } from '../redux/reducres/FilterSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom'
 
@@ -16,8 +16,14 @@ const Search = () => {
     //     setShowResults(val);
     // };
 
-    const setSlug = (slug) => {
-        dispatch(setCategorySlug(slug))
+    const setSlug = (slug, type) => {
+        if(type === 'category'){
+            dispatch(setCollectionSlug(null))
+            dispatch(setCategorySlug(slug))
+        } else {
+            dispatch(setCategorySlug(null))
+            dispatch(setCollectionSlug(slug))
+        }
         navigate('/filter');
     }
 
@@ -76,7 +82,7 @@ const Search = () => {
                         searchSuggestions?.categories.length > 0 ? (
                         searchSuggestions?.categories.map((category, index) => (
                             <li key={index} className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
-                                onClick={() => setSlug(category.slug)}
+                                onClick={() => setSlug(category.slug, 'category')}
                             >
                                 {category.name}
                             </li>
@@ -93,7 +99,11 @@ const Search = () => {
                     {
                         searchSuggestions?.collections.length > 0 ? (
                         searchSuggestions?.collections.map((collection, index) => (
-                            <li key={index} className="px-4 py-2 hover:bg-gray-100 cursor-pointer">{collection.name}</li>
+                            <li key={index} className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                                onClick={() => setSlug(collection.slug, "collection")}
+                            >
+                                {collection.name}
+                            </li>
                         ))
                         ) : (
                         <p className='px-5'>No keyword found</p>

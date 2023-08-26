@@ -7,17 +7,22 @@ export const filterSlice = createSlice({
   name: 'filter',
   initialState: {
     category_slug: null,
+    collection_slug: null,
     priceRange: null,
     sortBy: null,
     brand_ids: [],
     color_codes: [],
     selected_attribute_values: {},
     searchAttributes: null,
+    products: null,
     searchResult: null
   },
   reducers: {
     setCategorySlug: (state, action) => {
       state.category_slug = action.payload
+    },
+    setCollectionSlug: (state, action) => {
+      state.collection_slug = action.payload
     },
     setPriceRange: (state, action) => {
       state.priceRange = action.payload
@@ -37,6 +42,9 @@ export const filterSlice = createSlice({
     setSearchAttributes: (state, action) => {
       state.searchAttributes = action.payload
     },
+    setProducts: (state, action) => {
+      state.products = action.payload
+    },
     setSearchResult: (state, action) => {
       state.searchResult = action.payload
     },
@@ -46,12 +54,14 @@ export const filterSlice = createSlice({
 // Action creators are generated for each case reducer function
 export const { 
   setCategorySlug, 
+  setCollectionSlug,
   setPriceRange,
   setSortBy, 
   setBrandIds,
   setColorCodes,
   set_selected_attribute_values,
   setSearchAttributes, 
+  setProducts,
   setSearchResult 
 } = filterSlice.actions
 
