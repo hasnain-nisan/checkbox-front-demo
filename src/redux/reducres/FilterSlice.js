@@ -76,6 +76,13 @@ export const filterSlice = createSlice({
     setSearchResult: (state, action) => {
       state.searchResult = action.payload
     },
+    resetAll: (state) => {
+      state.priceRange = null
+      state.sortBy = null
+      state.brand_ids = []
+      state.color_codes = []
+      state.selected_attribute_values = {}
+    },
   }
 })
 
@@ -91,7 +98,8 @@ export const {
   set_selected_attribute_values,
   setSearchAttributes, 
   setProducts,
-  setSearchResult 
+  setSearchResult,
+  resetAll
 } = filterSlice.actions
 
 export default filterSlice.reducer

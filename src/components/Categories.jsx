@@ -60,6 +60,7 @@ const Categories = () => {
             menu={{
                 items,
             }}
+            on
         >
             <a onClick={(e) => e.preventDefault()}>
                 <Space className='border-2 border-gray-500 p-2 rounded-md cursor-pointer'>

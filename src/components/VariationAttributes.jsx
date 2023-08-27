@@ -59,12 +59,11 @@ const VariationAttributes = () => {
                         className={`searchAttr ${accordionOpenAttrs[attr.id] === true ? 'block' : 'hidden'}`}
                     >
                         {attr.attribute_values.map((item, index) => (
-                            <div key={index} className="flex items-center mb-2">
+                            <div key={index} className={`flex items-center mb-2 cursor-pointer ${isCheckboxChecked(attr.id, item.value) ? "text-blue-500" : null}`} onClick={() => handleAttrChange(attr.id, item.value)}>
                                 <input
                                     type="checkbox"
                                     id={`color-${index}`}
                                     checked={isCheckboxChecked(attr.id, item.value)}
-                                    onChange={() => handleAttrChange(attr.id, item.value)}
                                     className="form-checkbox h-4 w-4 text-indigo-600 transition duration-150 ease-in-out"
                                 />
                                 <label htmlFor={`color-${index}`} className="ml-2">

@@ -34,12 +34,11 @@ const Colors = () => {
                 className={`searchAttr ${accordionOpenColors ? 'block' : 'hidden'}`}
             >
                 {colors?.map((color, index) => (
-                    <div key={index} className="flex items-center mb-2">
+                    <div key={index} className={`flex items-center mb-2 cursor-pointer ${color_codes.includes(color.code) ? "text-blue-500" : null}`} onClick={() => handleColorChange(color.code)}>
                         <input
                             type="checkbox"
                             id={`color-${index}`}
                             checked={color_codes.includes(color.code)}
-                            onChange={() => handleColorChange(color.code)}
                             className="form-checkbox h-4 w-4 text-indigo-600 transition duration-150 ease-in-out"
                         />
                         <label htmlFor={`color-${index}`} className="ml-2">

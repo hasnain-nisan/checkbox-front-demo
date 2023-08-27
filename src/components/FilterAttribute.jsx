@@ -9,7 +9,7 @@ import Colors from './Colors';
 import VariationAttributes from './VariationAttributes';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
-import { setSearchAttributes } from '../redux/reducres/FilterSlice';
+import { resetAll, setSearchAttributes } from '../redux/reducres/FilterSlice';
 
 const FilterAttribute = () => {
 
@@ -18,50 +18,45 @@ const FilterAttribute = () => {
     const collection_slug = useSelector(state => state.filter.collection_slug)
     const keyword = useSelector(state => state.filter.keyword)
 
-  const getSearchAttributes = async () => {
-    try {
-      const response = await axios.get('search-attributes', {
-        params: {
-          "category_slug" : category_slug,
-          "collection_slug" : collection_slug,
-          'keyword': keyword
-          // "category_ids" : category_ids,
-          // "brand_ids" : brand_ids,
-          // "color_codes" : color_codes,
-          // "selected_attribute_values" : selected_attribute_values
-        }
-      });
+    const getSearchAttributes = async () => {
+      try {
+        const response = await axios.get('search-attributes', {
+          params: {
+            "category_slug" : category_slug,
+            "collection_slug" : collection_slug,
+            'keyword': keyword
+          }
+        });
+        dispatch(setSearchAttributes(response.data.data))
+        
+        // Initialize accordionOpenAttrs with properties based on the response
+        // const initialOpenAttrs = response.data.data.search_attributes.attributes.reduce(
+        //   (acc, attribut) => {
+        //     acc[attribut.id] = accordionOpenAttrs.hasOwnProperty(attribut.id)
+        //       ? accordionOpenAttrs[attribut.id]
+        //       : false;
+        //     return acc;
+        //   },
+        //   {}
+        // );
 
-      console.log(response.data.data);
-      dispatch(setSearchAttributes(response.data.data))
-
-      // setShowResults(false)
-      // setSearchResult(response.data.data)
-      
-      // Initialize accordionOpenAttrs with properties based on the response
-      // const initialOpenAttrs = response.data.data.search_attributes.attributes.reduce(
-      //   (acc, attribut) => {
-      //     acc[attribut.id] = accordionOpenAttrs.hasOwnProperty(attribut.id)
-      //       ? accordionOpenAttrs[attribut.id]
-      //       : false;
-      //     return acc;
-      //   },
-      //   {}
-      // );
-
-      // setAccordionOpenAttrs(initialOpenAttrs);
-    } catch (error) {
-      console.log('Error fetching data:', error);
+        // setAccordionOpenAttrs(initialOpenAttrs);
+      } catch (error) {
+        console.log('Error fetching data:', error);
+      }
     }
-  }
 
-  useEffect(() => {
-    getSearchAttributes();
-  }, [category_slug, collection_slug, keyword])
+    const reset = () => {
+      dispatch(resetAll())
+    }
+
+    useEffect(() => {
+      getSearchAttributes();
+    }, [category_slug, collection_slug, keyword])
 
   return (
     <div>
-        <Button className='flex items-center justify-center gap-3 w-full p-5'>
+        <Button className='flex items-center justify-center gap-3 w-full p-5' onClick={() => reset()}>
           <MdOutlineCancel/>
           Reset all filter
         </Button>

@@ -34,15 +34,14 @@ const Brands = () => {
                 className={`searchAttr ${accordionOpenBrand ? 'block' : 'hidden'}`}
             >
             {brands?.map((brand, index) => (
-                <div key={index} className="flex items-center mb-2">
+                <div key={index} className={`flex items-center mb-2 cursor-pointer ${brand_ids.includes(brand.id) ? "text-blue-500" : null}`} onClick={() => handleBrandChange(brand.id)}>
                     <input
                         type="checkbox"
                         id={`brand-${index}`}
                         checked={brand_ids.includes(brand.id)}
-                        onChange={() => handleBrandChange(brand.id)}
                         className="form-checkbox h-4 w-4 text-indigo-600 transition duration-150 ease-in-out"
                     />
-                    <label htmlFor={`brand-${index}`} className="ml-2">
+                    <label htmlFor={`brand-${index}`} className={"ml-2"}>
                         {brand.name}
                     </label>
                 </div>
