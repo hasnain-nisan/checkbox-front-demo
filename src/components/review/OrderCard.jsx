@@ -7,8 +7,6 @@ import ProductCard from './ProductCard'
 const OrderCard = ({order}) => {
 
   const [isOpen, setIsOpen] = useState(false);
-
-  console.log(order);
   const date = new Date(order?.created_at).toLocaleString();
   
   return (
