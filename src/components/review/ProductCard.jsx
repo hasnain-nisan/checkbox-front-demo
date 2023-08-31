@@ -1,7 +1,11 @@
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { setIsModalOpen, setSelectedProductForReview } from '../../redux/reducres/ReviewSlice';
-import { Rate } from 'antd';
+import { setIsDeleteModalOpen, setIsModalOpen, setSelectedProductForReview, setSelectedReview } from '../../redux/reducres/ReviewSlice';
+import { Dropdown, Rate, Space } from 'antd';
+import { BiMenuAltLeft } from 'react-icons/bi';
+import { FaCaretDown } from 'react-icons/fa';
+import { AiOutlineEdit } from 'react-icons/ai';
+import { MdDelete } from 'react-icons/md';
 
 
 const ProductCard = ({product}) => {
@@ -10,11 +14,31 @@ const ProductCard = ({product}) => {
     const review_type = useSelector(state => state.review.review_type)
     const imageFallBack = "https://miro.medium.com/v2/resize:fit:1150/1*AC9frN1qFnn-I2JCycN8fw.png"
     const [imgError, setImgError] = useState(false)
-    const images = review_type === 'reviewed' ? JSON.parse(product?.review?.images) : []
+    const images = (review_type === 'reviewed' && product?.review) ? (JSON.parse(product?.review?.images)) : []
 
     const handleImageError = () => {
         setImgError(true)
     }
+
+    const items = [
+        {
+            "key": 1,
+            "label": "Edit",
+            "icon": <AiOutlineEdit/>,
+            "onClick": function(){
+                console.log('edit', product);
+            },
+        },
+        {
+            "key": 2,
+            "label": "Delete",
+            "icon": <MdDelete/>,
+            "onClick": function(){
+                dispatch(setSelectedReview(product?.review))
+                dispatch(setIsDeleteModalOpen(true))
+            },
+        }
+    ];
 
     const handleIsModalOpen = (product) => {
         if(review_type == 'to_review'){
@@ -55,7 +79,21 @@ const ProductCard = ({product}) => {
             {
                 review_type === 'reviewed' ? (
                     <div className='border-dotted border-2 p-3 group-hover:bg-gray-300 rounded-md flex flex-col gap-3'>
-                        <span className='text-sm font-semibold'>Review</span>
+                        <div className='flex items-center justify-between'>
+                            <span className='text-sm font-semibold'>Review</span>
+                            <Dropdown
+                                menu={{
+                                    items,
+                                }}
+                                on
+                            >
+                                <a onClick={(e) => e.preventDefault()}>
+                                    <Space className='p-1 bg-white rounded-md cursor-pointer'>
+                                        <BiMenuAltLeft/>
+                                    </Space>
+                                </a>
+                            </Dropdown>
+                        </div>
                         <div className='flex gap-2 items-center'>
                             {
                                 images.map((image, index) => {
@@ -64,10 +102,10 @@ const ProductCard = ({product}) => {
                             }
                         </div>
                         <div>
-                            <Rate disabled defaultValue={product?.review.rating}></Rate>
+                            <Rate disabled defaultValue={product?.review?.rating}></Rate>
                         </div>
                         <div>
-                            <p className='font-light text-sm'>{product?.review.comment}</p>
+                            <p className='font-light text-sm'>{product?.review?.comment}</p>
                         </div>
                     </div>
                 ) : null

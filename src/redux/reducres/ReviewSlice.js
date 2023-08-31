@@ -6,7 +6,9 @@ export const reviewSlice = createSlice({
   initialState: {
     review_type: "to_review",
     isModalOpen: false,
-    selectedProductForReview: null
+    selectedProductForReview: null,
+    selectedReview: null,
+    isDeleteModalOpen: false,
   },
   reducers: {
     setReviewType: (state, action) => {
@@ -18,6 +20,12 @@ export const reviewSlice = createSlice({
     setSelectedProductForReview: (state, action) => {
       state.selectedProductForReview = action.payload
     },
+    setSelectedReview: (state, action) => {
+      state.selectedReview = action.payload
+    },
+    setIsDeleteModalOpen: (state, action) => {
+      state.isDeleteModalOpen = action.payload
+    }
   }
 })
 
@@ -25,7 +33,9 @@ export const reviewSlice = createSlice({
 export const {
   setReviewType,
   setIsModalOpen,
-  setSelectedProductForReview
+  setSelectedProductForReview,
+  setSelectedReview,
+  setIsDeleteModalOpen
 } = reviewSlice.actions
 
 export default reviewSlice.reducer

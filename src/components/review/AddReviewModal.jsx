@@ -1,5 +1,5 @@
-import { Button, Input, Modal, Rate, Upload } from 'antd'
-import React, { useRef, useState } from 'react'
+import { Button, Input, Modal, Rate,  } from 'antd'
+import { useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { setIsModalOpen } from '../../redux/reducres/ReviewSlice';
 import { AiOutlineCloudUpload } from 'react-icons/ai';
