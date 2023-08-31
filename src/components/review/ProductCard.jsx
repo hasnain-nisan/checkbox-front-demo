@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { setIsDeleteModalOpen, setIsModalOpen, setSelectedProductForReview, setSelectedReview } from '../../redux/reducres/ReviewSlice';
+import { setIsDeleteModalOpen, setIsEditModalOpen, setIsModalOpen, setSelectedProductForReview, setSelectedReview } from '../../redux/reducres/ReviewSlice';
 import { Dropdown, Rate, Space } from 'antd';
 import { BiMenuAltLeft } from 'react-icons/bi';
 import { FaCaretDown } from 'react-icons/fa';
@@ -26,7 +26,8 @@ const ProductCard = ({product}) => {
             "label": "Edit",
             "icon": <AiOutlineEdit/>,
             "onClick": function(){
-                console.log('edit', product);
+                dispatch(setSelectedReview(product?.review))
+                dispatch(setIsEditModalOpen(true))
             },
         },
         {
@@ -46,8 +47,6 @@ const ProductCard = ({product}) => {
             dispatch(setIsModalOpen(true))
         }
     }
-
-    console.log(product?.review);
 
     return (
         <div className={`flex p-5 gap-3 cursor-pointer group hover:bg-gray-100 hover:rounded-md ${review_type === 'reviewed' ? 'flex-col' : 'items-center'}`}
@@ -102,7 +101,7 @@ const ProductCard = ({product}) => {
                             }
                         </div>
                         <div>
-                            <Rate disabled defaultValue={product?.review?.rating}></Rate>
+                            <Rate disabled value={product?.review?.rating}></Rate>
                         </div>
                         <div>
                             <p className='font-light text-sm'>{product?.review?.comment}</p>

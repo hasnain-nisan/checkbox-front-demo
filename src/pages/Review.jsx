@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import AddReviewModal from "../components/review/AddReviewModal";
 import { setReviewType } from "../redux/reducres/ReviewSlice";
 import DeleteModal from "../components/review/DeleteModal";
+import EditReviewModal from "../components/review/EditReviewModal";
 
 const Review = () => {
 
@@ -12,6 +13,7 @@ const Review = () => {
     const review_type = useSelector(state => state.review.review_type)
     const isModalOpen = useSelector(state => state.review.isModalOpen)
     const isDeleteModalOpen = useSelector(state => state.review.isDeleteModalOpen)
+    const isEditModalOpen = useSelector(state => state.review.isEditModalOpen)
     const [data, setData] = useState(null)
 
     const getReviewData = () => {
@@ -45,7 +47,7 @@ const Review = () => {
 
     useEffect(() => {
       getReviewData()
-    }, [review_type, isModalOpen, isDeleteModalOpen])
+    }, [review_type, isModalOpen, isDeleteModalOpen, isEditModalOpen])
 
     return (
         <div className="container mx-auto">
@@ -70,6 +72,7 @@ const Review = () => {
             </div>
             <AddReviewModal/>
             <DeleteModal/>
+            <EditReviewModal/>
         </div>
     )
 }
