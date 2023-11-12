@@ -4,6 +4,8 @@ import Home from './pages/Home';
 import Filter from './pages/Filter';
 import Review from './pages/Review';
 import Charts from './pages/Charts';
+import Product from './components/Product';
+import Productview from './pages/Product';
 
 const App = () => {
     const accessToken = '467|6UKJoE9yUXrunyxb7G60Hvtos3AqqTxPyTuqSZBG';
@@ -21,13 +23,14 @@ const App = () => {
   return (
     <div className="">
       <Routes>
-        <Route path="/" element={ <Home/> } />
-        <Route path="/filter" element={ <Filter/> } />
-        <Route path="/review" element={ <Review/> } />
-        <Route path="/charts" element={ <Charts/> } />
+        <Route path="/" element={<Home />} />
+        <Route path="/filter" element={<Filter />} />
+        <Route path="/review" element={<Review />} />
+        <Route path="/charts" element={<Charts />} />
+        <Route path="/product" element={<Productview />} />
       </Routes>
     </div>
-  )
+  );
 }
 
 export default App
