@@ -6,6 +6,9 @@ import Review from './pages/Review';
 import Charts from './pages/Charts';
 import Product from './components/Product';
 import Productview from './pages/Product';
+import { useEffect } from 'react';
+import { fbConfig, loadFacebookSDK } from './fbConfig';
+import Collection from './pages/Collection';
 
 const App = () => {
     const accessToken = '467|6UKJoE9yUXrunyxb7G60Hvtos3AqqTxPyTuqSZBG';
@@ -19,6 +22,21 @@ const App = () => {
     axios.defaults.headers.post["Content-Type"] = "multipart/form-data; charset=utf-8";
     axios.defaults.headers.post["Access-Control-Allow-Origin"] = "*";
 
+    useEffect(() => {
+      loadFacebookSDK()
+        .then((FB) => {
+          FB.init({
+            appId: fbConfig.appId,
+            version: "v17.0",
+            status: true,
+            cookie: true,
+          });
+        })
+        .catch((error) => {
+          console.error("Failed to load Facebook SDK:", error);
+        });
+    }, []);
+
 
   return (
     <div className="">
@@ -28,6 +46,7 @@ const App = () => {
         <Route path="/review" element={<Review />} />
         <Route path="/charts" element={<Charts />} />
         <Route path="/product" element={<Productview />} />
+        <Route path="/collection" element={<Collection />} />
       </Routes>
     </div>
   );
