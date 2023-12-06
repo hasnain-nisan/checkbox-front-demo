@@ -18,6 +18,15 @@ const Product = () => {
   const [product, setProduct] = useState(null);
   const [swiperData, setSwiperData] = useState([])
 
+  const getVideo = async () => {
+    try {
+      const res = await axios.get('products/get-video/' + id);
+      console.log(res);
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   const getProduct = async () => {
     try {
       const res = await axios.get('products/' + id);
@@ -122,6 +131,12 @@ const Product = () => {
           onClick={() => getProduct()}
         >
           Get product
+        </button>
+        <button
+          className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
+          onClick={() => getVideo()}
+        >
+          Get video
         </button>
         <button
           className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"

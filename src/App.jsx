@@ -9,11 +9,12 @@ import Productview from './pages/Product';
 import { useEffect } from 'react';
 import { fbConfig, loadFacebookSDK } from './fbConfig';
 import Collection from './pages/Collection';
+import Dashboard from './pages/Dashboard';
 
 const App = () => {
     const accessToken = '467|6UKJoE9yUXrunyxb7G60Hvtos3AqqTxPyTuqSZBG';
     axios.defaults.baseURL = 'https://phpstack-924353-3259330.cloudwaysapps.com/api/v2';
-    // const accessToken = '387|vcqd6fDAh1jf2NJZ1No1dGDnnW3f1fnINVbc37MI';
+    // const accessToken = '621|VPbkQwLJAnUsuU8nfGSwgKl16C1JLm4eIaF4keDl';
     // axios.defaults.baseURL = 'http://localhost/checkbox-v2/api/v2/';
     axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
     axios.defaults.headers.common['Checkbox-Api-V2-Key'] = '83324867-6668-4c04-bf36-91714ea8b3e3';
@@ -47,6 +48,7 @@ const App = () => {
         <Route path="/charts" element={<Charts />} />
         <Route path="/product" element={<Productview />} />
         <Route path="/collection" element={<Collection />} />
+        <Route path="/dashboard" element={<Dashboard />} />
       </Routes>
     </div>
   );
